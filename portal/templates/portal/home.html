@@ -7,5 +7,21 @@
 <body>
     <h1>Вітаємо на Порталі групи!</h1>
     <p>Це головна сторінка нашого майбутнього освітнього та соціального простору.</p>
+
+    <hr>
+
+    {% if user.is_authenticated %}
+        <p>Ви увійшли як: <strong>{{ user.username }}</strong></p>
+        
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">
+                Вийти з акаунта
+            </button>
+        </form>
+    {% else %}
+        <p>Ви зараз не авторизовані.</p>
+        <a href="{% url 'login' %}">👉 Увійти на сайт</a>
+    {% endif %}
 </body>
 </html>
