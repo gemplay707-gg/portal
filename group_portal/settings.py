@@ -87,7 +87,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # МОВНІ НАЛАШТУВАННЯ ТА ЧАС
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'UTC'
 

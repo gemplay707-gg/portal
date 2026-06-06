@@ -9,7 +9,20 @@
     
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        {% if form.errors %}
+            <p style="color: red;">Неправильний логін або пароль!</p>
+        {% endif %}
+
+        <p>
+            <label for="id_username">Логін (Ім'я користувача):</label><br>
+            <input type="text" name="username" autofocus required id="id_username">
+        </p>
+        <p>
+            <label for="id_password">Пароль:</label><br>
+            <input type="password" name="password" required id="id_password">
+        </p>
+
         <button type="submit">Увійти</button>
     </form>
 </body>

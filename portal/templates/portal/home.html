@@ -21,7 +21,8 @@
         </form>
     {% else %}
         <p>Ви зараз не авторизовані.</p>
-        <a href="{% url 'login' %}">👉 Увійти на сайт</a>
+        <a href="{% url 'login' %}">👉 Увійти на сайт</a> | 
+        <a href="{% url 'signup' %}">Реєстрація</a>
     {% endif %}
 </body>
 </html>
