@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Мій профіль</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">⬅️ На головну</a>
+    
+    <h2>Профіль користувача: {{ profile.user.username }}</h2>
+    
+    <img src="{{ profile.avatar_url }}" alt="Аватарка" style="width:150px; height:150px; border-radius:50%; object-fit:cover; border: 2px solid #ccc;">
+
+    <p><strong>Нікнейм на порталі:</strong> {{ profile.user.username }}</p>
+    <p><strong>Клас:</strong> {% if profile.user_class %}{{ profile.user_class }}{% else %}Не вказано{% endif %}</p>
+    <p><strong>Роль на порталі:</strong> {{ profile.get_role_display }}</p>
+    
+    <p><strong>Про себе:</strong></p>
+    <p>{% if profile.bio %}{{ profile.bio }}{% else %}Тут поки що порожньо...{% endif %}</p>
+
+    <p><strong>Email:</strong> {% if profile.user.email %}{{ profile.user.email }}{% else %}Не вказано{% endif %}</p>
+
+    <hr>
+    
+    <p>
+        <a href="{% url 'edit_profile' %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+            ✏️ Редагувати профіль
+        </a>
+    </p>
+</body>
+</html>

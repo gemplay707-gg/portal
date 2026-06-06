@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Редагування профілю</title>
+</head>
+<body>
+    <a href="{% url 'profile' %}">⬅️ Назад до профілю</a>
+    
+    <h2>Редагування особистих даних</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <h3>Основне</h3>
+        <p>
+            <label for="id_username">Нікнейм на порталі:</label>
+            {{ user_form.username }}
+            {% if user_form.username.errors %}
+                <span style="color: red; display: block;">{{ user_form.username.errors.0 }}</span>
+            {% endif %}
+        </p>
+        
+        <p>
+            <label for="id_email">Email:</label>
+            {{ user_form.email }}
+        </p>
+        
+        <h3>Додаткова інформація</h3>
+        {{ profile_form.as_p }}
+        
+        <br>
+        <button type="submit" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            💾 Зберегти зміни
+        </button>
+        <a href="{% url 'profile' %}" style="margin-left: 15px; color: red;">Скасувати</a>
+    </form>
+</body>
+</html>

@@ -13,6 +13,8 @@
     {% if user.is_authenticated %}
         <p>Ви увійшли як: <strong>{{ user.username }}</strong></p>
         
+        <p><a href="{% url 'profile' %}">👤 Перейти в мій профіль</a></p>
+        
         <form method="post" action="{% url 'logout' %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">
@@ -24,5 +26,3 @@
         <a href="{% url 'login' %}">👉 Увійти на сайт</a> | 
         <a href="{% url 'signup' %}">Реєстрація</a>
     {% endif %}
-</body>
-</html>
