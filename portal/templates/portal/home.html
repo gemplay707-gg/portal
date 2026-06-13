@@ -14,7 +14,26 @@
         <p>Ви увійшли як: <strong>{{ user.username }}</strong></p>
         
         <p><a href="{% url 'profile' %}">👤 Перейти в мій профіль</a></p>
+        <p><a href="{% url 'classes_dashboard' %}">🏫 Знайти / Створити новий клас</a></p>
         
+        <hr>
+        <h3>📌 Мій клас</h3>
+        
+        {% if current_class %}
+            <p>Ви приєднані до класу. Натисніть нижче, щоб увійти в чат кімнати:</p>
+            <strong>
+                <a href="{% url 'class_room' current_class.id %}" style="font-size: 18px; color: #007bff; text-decoration: none;">
+                    💬 Кімната класу: {{ current_class.name }}
+                </a>
+            </strong>
+            {% if current_class.teacher == request.user %}
+                <span style="color: green; font-size: 12px;">(Ви творець)</span>
+            {% endif %}
+        {% else %}
+            <p style="color: gray;">Ви ще не приєдналися до жодного класу. Перейдіть в меню керування вище, щоб вступити або створити свій.</p>
+        {% endif %}
+
+        <br><hr>
         <form method="post" action="{% url 'logout' %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">
@@ -26,3 +45,5 @@
         <a href="{% url 'login' %}">👉 Увійти на сайт</a> | 
         <a href="{% url 'signup' %}">Реєстрація</a>
     {% endif %}
+</body>
+</html>

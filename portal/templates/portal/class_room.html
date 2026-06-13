@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Кімната {{ school_class.name }}</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">⬅️ На головну</a>
+    
+    <h2>🏫 Кімната класу: {{ school_class.name }}</h2>
+    <p>Творець/Вчитель: <strong>{{ school_class.teacher.username }}</strong></p>
+    {% if school_class.access_type == 'private' %}
+        <p style="color: #856404; background-color: #fff3cd; display: inline-block; padding: 5px 10px; border-radius: 5px;">
+            🔑 Секретний код цього класу для друзів: <strong>{{ school_class.join_code }}</strong>
+        </p>
+    {% endif %}
+
+    <table border="0" width="100%">
+        <tr>
+            <td width="70%" valign="top" style="padding-right: 20px;">
+                <h3>💬 Чат класу</h3>
+                
+                <div style="border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                    {% if chat_messages %}
+                        {% for msg in chat_messages %}
+                            <div style="margin-bottom: 12px;">
+                                <strong style="color: #007bff;">{{ msg.sender.username }}</strong> 
+                                <small style="color: gray; font-size: 10px;">({{ msg.created_at|date:"H:i" }})</small>:
+                                <p style="margin: 4px 0 0 0; background-color: #fff; padding: 6px; border-radius: 4px; border-left: 3px solid #007bff; display: inline-block;">
+                                    {{ msg.text }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="color: gray; text-align: center; margin-top: 130px;">Тут поки немає повідомлень. Напишіть щось першим!</p>
+                    {% endif %}
+                </div>
+
+                <form method="post" style="margin-top: 10px;">
+                    {% csrf_token %}
+                    <input type="text" name="message_text" placeholder="Напишіть повідомлення..." style="width: 80%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" required>
+                    <button type="submit" style="padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Надіслати
+                    </button>
+                </form>
+            </td>
+
+            <td width="30%" valign="top" style="background-color: #f1f1f1; padding: 15px; border-radius: 5px;">
+                <h3>👥 Учасники класу</h3>
+                <ul>
+                    <li>👑 <strong>{{ school_class.teacher.username }}</strong> (Вчитель)</li>
+                    {% for student in students %}
+                        {% if student.user != school_class.teacher %}
+                            <li>👤 {{ student.user.username }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

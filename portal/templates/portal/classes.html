@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Керування класами</title>
+</head>
+<body>
+    <p><a href="{% url 'home' %}">⬅️ На головну</a></p>
+    <h2>🏫 Панель керування класами</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green; font-weight: bold;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <p>Ваш поточний клас: 
+        <strong>
+            {% if my_profile.school_class %}
+                {{ my_profile.school_class.name }}
+            {% else %}
+                Немає класу
+            {% endif %}
+        </strong>
+    </p>
+
+    <hr>
+
+    <h3>🔑 Приєднатися до приватного класу</h3>
+    <form method="post" action="{% url 'join_code_class' %}">
+        {% csrf_token %}
+        {{ join_form.as_p }}
+        <button type="submit">Увійти</button>
+    </form>
+
+    <hr>
+
+    <h3>➕ Створити новий клас</h3>
+    <form method="post" action="{% url 'create_class' %}">
+        {% csrf_token %}
+        {{ create_form.as_p }}
+        <button type="submit" style="background-color: green; color: white; padding: 5px 10px; border: none; cursor: pointer;">Створити</button>
+    </form>
+
+    <hr>
+
+    <h3>🌍 Доступні публічні класи</h3>
+    {% if public_classes %}
+        <ul>
+            {% for s_class in public_classes %}
+                <li>
+                    <strong>{{ s_class.name }}</strong> — Творець: {{ s_class.teacher.username }}
+                    {% if my_profile.school_class == s_class %}
+                        <span style="color: green; margin-left: 10px;">(Ви вже тут)</span>
+                    {% else %}
+                        <a href="{% url 'join_public_class' s_class.id %}" style="margin-left: 10px; color: blue;">[ Вступити в один клік ]</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Немає створених публічних класів.</p>
+    {% endif %}
+
+</body>
+</html>

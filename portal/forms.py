@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, SchoolClass
 
 class UserUpdateForm(forms.ModelForm):
-    # Додаємо унікальне системне ім'я та email
     username = forms.CharField(label="Нікнейм на порталі", required=True)
     email = forms.EmailField(label="Email", required=False)
 
@@ -11,7 +10,6 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
-    # Перевірка, чи не зайнятий новий нікнейм кимось іншим
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
@@ -21,5 +19,26 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        # Прибираємо звідси 'nickname', залишаємо тільки інші поля
-        fields = ['user_class', 'bio', 'avatar_url']
+        fields = ['school_class', 'bio', 'avatar_url']
+
+class ClassCreateForm(forms.ModelForm):
+    class Meta:
+        model = SchoolClass
+        fields = ['name', 'access_type']
+        labels = {
+            'name': 'Назва класу (наприклад, 10-А)',
+            'access_type': 'Тип доступу',
+        }
+
+class ClassJoinForm(forms.Form):
+    join_code = forms.CharField(
+        max_length=10, 
+        label="Введіть 6-значний код приєднання",
+        widget=forms.TextInput(attrs={'placeholder': 'Наприклад, X4Y7ZW'})
+    )
+
+    def clean_join_code(self):
+        code = self.cleaned_data.get('join_code').upper().strip()
+        if not SchoolClass.objects.filter(join_code=code).exists():
+            raise forms.ValidationError("Клас із таким кодом не знайдено!")
+        return code
