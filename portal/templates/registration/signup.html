@@ -1,18 +1,28 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Реєстрація</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація — Lyceum Space</title>
+    <link rel="stylesheet" href="{% static 'portal/css/style.css' %}">
 </head>
-<body>
-    <h2>Реєстрація нового користувача</h2>
-    
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Зареєструватися</button>
-    </form>
+<body class="chalkboard">
+    <div class="auth-shell">
+        <div class="auth-card">
+            <div class="brand">
+                <span class="brand-mark">Lyceum Space</span>
+            </div>
+            <span class="brand-tag" style="color: var(--chalk-pink-dark);">Освітній простір</span>
+            <h2>Реєстрація нового користувача</h2>
 
-    <p>Вже маєте акаунт? <a href="{% url 'login' %}">Увійти</a></p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-pink btn-block">Зареєструватися</button>
+            </form>
+
+            <div class="auth-foot">Вже маєте акаунт? <a href="{% url 'login' %}">Увійти</a></div>
+        </div>
+    </div>
 </body>
 </html>

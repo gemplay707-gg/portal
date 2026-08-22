@@ -1,29 +1,39 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Вхід на портал</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід на портал — Lyceum Space</title>
+    <link rel="stylesheet" href="{% static 'portal/css/style.css' %}">
 </head>
-<body>
-    <h2>Вхід для учасників порталу</h2>
-    
-    <form method="post">
-        {% csrf_token %}
-        
-        {% if form.errors %}
-            <p style="color: red;">Неправильний логін або пароль!</p>
-        {% endif %}
+<body class="chalkboard">
+    <div class="auth-shell">
+        <div class="auth-card">
+            <div class="brand">
+                <span class="brand-mark">Lyceum Space</span>
+            </div>
+            <span class="brand-tag" style="color: var(--chalk-pink-dark);">Освітній простір</span>
+            <h2>Вхід для учасників порталу</h2>
 
-        <p>
-            <label for="id_username">Логін (Ім'я користувача):</label><br>
-            <input type="text" name="username" autofocus required id="id_username">
-        </p>
-        <p>
-            <label for="id_password">Пароль:</label><br>
-            <input type="password" name="password" required id="id_password">
-        </p>
+            {% if form.errors %}
+                <div class="alert alert-error">⚠️ Неправильний логін або пароль!</div>
+            {% endif %}
 
-        <button type="submit">Увійти</button>
-    </form>
+            <form method="post">
+                {% csrf_token %}
+                <p>
+                    <label for="id_username">Логін (Ім'я користувача)</label>
+                    <input type="text" name="username" autofocus required id="id_username">
+                </p>
+                <p>
+                    <label for="id_password">Пароль</label>
+                    <input type="password" name="password" required id="id_password">
+                </p>
+                <button type="submit" class="btn btn-primary btn-block">Увійти</button>
+            </form>
+
+            <div class="auth-foot">Ще не маєте акаунта? <a href="{% url 'signup' %}">Зареєструватися</a></div>
+        </div>
+    </div>
 </body>
 </html>

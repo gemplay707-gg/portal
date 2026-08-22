@@ -1,0 +1,46 @@
+{% load static %}<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lyceum Space{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'portal/css/style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+{% block header %}
+    <header class="site-header chalkboard">
+        <div class="site-header-inner">
+            <a href="{% url 'home' %}" class="brand">
+                <span class="brand-mark">Lyceum Space</span>
+                <span class="brand-tag">Освітній простір</span>
+            </a>
+            <nav class="site-nav">
+                {% block nav %}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}">Профіль</a>
+                        <a href="{% url 'classes_dashboard' %}">Класи</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Увійти</a>
+                    {% endif %}
+                {% endblock %}
+            </nav>
+        </div>
+    </header>
+{% endblock %}
+
+<div class="page {% block page_class %}{% endblock %}">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                {% if message.tags == 'error' %}⚠️{% else %}🎉{% endif %} {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
